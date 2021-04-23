@@ -1,0 +1,5 @@
+/*
+ * Public API Surface of vh-escpos
+ */
+export * from './lib/vh-escpos.service';
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicHVibGljLWFwaS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3Byb2plY3RzL3ZoLWVzY3Bvcy9zcmMvcHVibGljLWFwaS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTs7R0FFRztBQUVILGNBQWMseUJBQXlCLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyIvKlxuICogUHVibGljIEFQSSBTdXJmYWNlIG9mIHZoLWVzY3Bvc1xuICovXG5cbmV4cG9ydCAqIGZyb20gJy4vbGliL3ZoLWVzY3Bvcy5zZXJ2aWNlJztcbiJdfQ==

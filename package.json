@@ -1,0 +1,19 @@
+{
+  "name": "vh-escpos",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^11.1.2",
+    "@angular/core": "^11.1.2"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "main": "bundles/vh-escpos.umd.js",
+  "module": "fesm2015/vh-escpos.js",
+  "es2015": "fesm2015/vh-escpos.js",
+  "esm2015": "esm2015/vh-escpos.js",
+  "fesm2015": "fesm2015/vh-escpos.js",
+  "typings": "vh-escpos.d.ts",
+  "metadata": "vh-escpos.metadata.json",
+  "sideEffects": false
+}
