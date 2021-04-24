@@ -6,5 +6,7 @@ export declare class PrintBuffer {
     flush(): Uint8Array;
     write(data: ArrayLike<number>): PrintBuffer;
     writeUInt8(value: number): PrintBuffer;
+    writeUInt32LE(value: number, noAssert?: boolean): PrintBuffer;
+    writeUInt16LE(value: number, noAssert?: boolean): PrintBuffer;
     private resize;
 }

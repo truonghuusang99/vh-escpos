@@ -1,4 +1,5 @@
 import { EscBuilder } from './encode/EscBuilder';
+import Image from './encode/Image';
 export declare class VhEscposService {
     constructor();
     builder: EscBuilder;
@@ -50,6 +51,7 @@ export declare class VhEscposService {
      */
     setPageSize(size?: number): VhEscposService;
     writeCustomTable(data: any, options?: any): VhEscposService;
+    image(image: Image): VhEscposService;
     /**
      * write the current builder value to the driver and clear out the builder
      */

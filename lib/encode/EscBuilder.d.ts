@@ -1,3 +1,5 @@
+import { RasterMode } from './commands';
+import Image from "./Image";
 export declare class EscBuilder {
     private encoder;
     private buffer;
@@ -16,6 +18,7 @@ export declare class EscBuilder {
     setUnderline(value?: boolean): EscBuilder;
     setJustification(value?: string): EscBuilder;
     setBold(bold?: boolean): EscBuilder;
+    raster(image: Image, mode?: RasterMode): EscBuilder;
     /**
     @param mode 0, 0x30
     */
