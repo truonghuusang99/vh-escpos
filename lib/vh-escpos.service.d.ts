@@ -1,5 +1,5 @@
 import { EscBuilder } from './encode/EscBuilder';
-import Image from './encode/Image';
+import { Image } from './encode/Image';
 export declare class VhEscposService {
     constructor();
     builder: EscBuilder;

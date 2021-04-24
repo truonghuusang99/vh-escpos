@@ -1,5 +1,5 @@
 import { RasterMode } from './commands';
-import Image from "./Image";
+import { Image } from "./Image";
 export declare class EscBuilder {
     private encoder;
     private buffer;

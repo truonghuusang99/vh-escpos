@@ -1,5 +1,7 @@
 import * as i0 from '@angular/core';
 import { Injectable } from '@angular/core';
+import { __awaiter } from 'tslib';
+import { toPixelData } from 'html-to-image';
 
 // Hat-tip to Håvard Lian @ https://github.com/haavardlian/escpos
 class PrintBuffer {
@@ -868,6 +870,76 @@ VhEscposService.decorators = [
 ];
 VhEscposService.ctorParameters = () => [];
 
+class Image {
+    constructor(pixels, width, height) {
+        this.data = pixels;
+        this.width = width;
+        this.height = height;
+    }
+    load(dom) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // const stream = await createStreamFromPath(path);
+            return new Promise(resolve => {
+                // stream.pipe(new PNG()).on("parsed", function (this: PNG) {
+                //     const pixels = new Array<boolean>(this.width * this.height);
+                //     for (let y = 0; y < this.height; y++) {
+                //         for (let x = 0; x < this.width; x++) {
+                //             // Get index 32bpp
+                //             const idx = (this.width * y + x) * 4;
+                //             let value = false;
+                //             // Anything that is white-ish and has alpha > 128 is colored in, rest is blank.
+                //             if (this.data[idx] < 0xE6 || this.data[idx + 1] < 0xE6 || this.data[idx + 2] < 0xE6) {
+                //                 value = true;
+                //             }
+                //             if (value && this.data[idx + 3] <= 0x80) {
+                //                 value = false;
+                //             }
+                //             pixels[this.width * y + x] = value;
+                //         }
+                //     }
+                //     resolve(new Image(pixels, this.width, this.height));
+                // });
+                toPixelData(dom, { quality: 1, backgroundColor: "#ffffff" }).then(function (pixel) {
+                    const pixels = new Array(dom.scrollWidth * dom.scrollHeight);
+                    for (var y = 0; y < dom.scrollHeight; ++y) {
+                        for (var x = 0; x < dom.scrollWidth; ++x) {
+                            const idx = (4 * y * dom.scrollHeight) + (4 * x);
+                            let value = false;
+                            // Anything that is white-ish and has alpha > 128 is colored in, rest is blank.
+                            if (this.data[idx] < 0xE6 || this.data[idx + 1] < 0xE6 || this.data[idx + 2] < 0xE6) {
+                                value = true;
+                            }
+                            if (value && this.data[idx + 3] <= 0x80) {
+                                value = false;
+                            }
+                            pixels[this.width * y + x] = value;
+                            /* pixelAtXY is a Uint8Array[4] containing RGBA values of the pixel at (x, y) in the range 0..255 */
+                        }
+                    }
+                    resolve(new Image(pixels, dom.scrollWidth, dom.scrollHeight));
+                });
+            });
+        });
+    }
+    toRaster() {
+        const n = Math.ceil(this.width / 8);
+        const result = new Uint8Array(this.height * n);
+        for (let y = 0; y < this.height; y++) {
+            for (let x = 0; x < this.width; x++) {
+                if (this.data[y * this.width + x]) {
+                    // tslint:disable-next-line no-bitwise
+                    result[y * n + (x >> 3)] += (0x80 >> ((x % 8) & 0x7));
+                }
+            }
+        }
+        return {
+            data: result,
+            height: this.height,
+            width: n
+        };
+    }
+}
+
 /*
  * Public API Surface of vh-escpos
  */
@@ -876,5 +948,5 @@ VhEscposService.ctorParameters = () => [];
  * Generated bundle index. Do not edit.
  */
 
-export { VhEscposService };
+export { Image, VhEscposService };
 //# sourceMappingURL=vh-escpos.js.map

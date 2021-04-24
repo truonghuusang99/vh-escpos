@@ -1,4 +1,4 @@
-export default class Image {
+export declare class Image {
     load(dom: any): Promise<Image>;
     width: number;
     height: number;

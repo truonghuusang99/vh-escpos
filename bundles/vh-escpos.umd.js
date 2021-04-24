@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core')) :
-    typeof define === 'function' && define.amd ? define('vh-escpos', ['exports', '@angular/core'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global['vh-escpos'] = {}, global.ng.core));
-}(this, (function (exports, i0) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('html-to-image')) :
+    typeof define === 'function' && define.amd ? define('vh-escpos', ['exports', '@angular/core', 'html-to-image'], factory) :
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global['vh-escpos'] = {}, global.ng.core, global.htmlToImage));
+}(this, (function (exports, i0, htmlToImage) { 'use strict';
 
     function _interopNamespace(e) {
         if (e && e.__esModule) return e;
@@ -1228,6 +1228,79 @@
     ];
     VhEscposService.ctorParameters = function () { return []; };
 
+    var Image = /** @class */ (function () {
+        function Image(pixels, width, height) {
+            this.data = pixels;
+            this.width = width;
+            this.height = height;
+        }
+        Image.prototype.load = function (dom) {
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    // const stream = await createStreamFromPath(path);
+                    return [2 /*return*/, new Promise(function (resolve) {
+                            // stream.pipe(new PNG()).on("parsed", function (this: PNG) {
+                            //     const pixels = new Array<boolean>(this.width * this.height);
+                            //     for (let y = 0; y < this.height; y++) {
+                            //         for (let x = 0; x < this.width; x++) {
+                            //             // Get index 32bpp
+                            //             const idx = (this.width * y + x) * 4;
+                            //             let value = false;
+                            //             // Anything that is white-ish and has alpha > 128 is colored in, rest is blank.
+                            //             if (this.data[idx] < 0xE6 || this.data[idx + 1] < 0xE6 || this.data[idx + 2] < 0xE6) {
+                            //                 value = true;
+                            //             }
+                            //             if (value && this.data[idx + 3] <= 0x80) {
+                            //                 value = false;
+                            //             }
+                            //             pixels[this.width * y + x] = value;
+                            //         }
+                            //     }
+                            //     resolve(new Image(pixels, this.width, this.height));
+                            // });
+                            htmlToImage.toPixelData(dom, { quality: 1, backgroundColor: "#ffffff" }).then(function (pixel) {
+                                var pixels = new Array(dom.scrollWidth * dom.scrollHeight);
+                                for (var y = 0; y < dom.scrollHeight; ++y) {
+                                    for (var x = 0; x < dom.scrollWidth; ++x) {
+                                        var idx = (4 * y * dom.scrollHeight) + (4 * x);
+                                        var value = false;
+                                        // Anything that is white-ish and has alpha > 128 is colored in, rest is blank.
+                                        if (this.data[idx] < 0xE6 || this.data[idx + 1] < 0xE6 || this.data[idx + 2] < 0xE6) {
+                                            value = true;
+                                        }
+                                        if (value && this.data[idx + 3] <= 0x80) {
+                                            value = false;
+                                        }
+                                        pixels[this.width * y + x] = value;
+                                        /* pixelAtXY is a Uint8Array[4] containing RGBA values of the pixel at (x, y) in the range 0..255 */
+                                    }
+                                }
+                                resolve(new Image(pixels, dom.scrollWidth, dom.scrollHeight));
+                            });
+                        })];
+                });
+            });
+        };
+        Image.prototype.toRaster = function () {
+            var n = Math.ceil(this.width / 8);
+            var result = new Uint8Array(this.height * n);
+            for (var y = 0; y < this.height; y++) {
+                for (var x = 0; x < this.width; x++) {
+                    if (this.data[y * this.width + x]) {
+                        // tslint:disable-next-line no-bitwise
+                        result[y * n + (x >> 3)] += (0x80 >> ((x % 8) & 0x7));
+                    }
+                }
+            }
+            return {
+                data: result,
+                height: this.height,
+                width: n
+            };
+        };
+        return Image;
+    }());
+
     /*
      * Public API Surface of vh-escpos
      */
@@ -1236,6 +1309,7 @@
      * Generated bundle index. Do not edit.
      */
 
+    exports.Image = Image;
     exports.VhEscposService = VhEscposService;
 
     Object.defineProperty(exports, '__esModule', { value: true });
