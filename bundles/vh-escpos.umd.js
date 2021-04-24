@@ -1265,10 +1265,10 @@
                                         var idx = (4 * y * dom.scrollHeight) + (4 * x);
                                         var value = false;
                                         // Anything that is white-ish and has alpha > 128 is colored in, rest is blank.
-                                        if (this.data[idx] < 0xE6 || this.data[idx + 1] < 0xE6 || this.data[idx + 2] < 0xE6) {
+                                        if (pixel[idx] < 0xE6 || pixel[idx + 1] < 0xE6 || pixel[idx + 2] < 0xE6) {
                                             value = true;
                                         }
-                                        if (value && this.data[idx + 3] <= 0x80) {
+                                        if (value && pixel[idx + 3] <= 0x80) {
                                             value = false;
                                         }
                                         pixels[this.width * y + x] = value;
